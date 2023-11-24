@@ -1,0 +1,15 @@
+# Ignore the virtual environment
+venv
+
+# also ignore the __pycache__
+__pycache__
+
+# ignore the .vscode folder (your personal VS Code settings)
+# .vscode/ 
+# ^^ Keeping this commented out so you can review how I configures the launch.json for the degugger
+
+# Ignore any sqlite databases
+*.db
+
+# Ignore .env since those are our secret environment variables
+.env

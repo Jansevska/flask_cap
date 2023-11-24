@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit A Post{% endblock %}
+
+{% block header %}
+    <h1>Edit {{ post.title }}</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="col">
+        <div class="card mt-3">
+            <div class="card-body">
+                <form action="" method="post">
+                    {{ form.csrf_token }}
+
+                    {{ form.title.label }}
+                    {{ form.title(class='form-control') }}
+
+                    {{ form.body.label }}
+                    {{ form.body(class='form-control') }}
+
+                    {{ form.image_url.label }}
+                    {{ form.image_url(class='form-control') }}
+
+                    {{ form.submit(class='btn btn-outline-primary mt-3 w-100') }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

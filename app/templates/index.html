@@ -1,0 +1,36 @@
+{% extends 'base.html' %} 
+
+{% block title %}Home{% endblock %} 
+
+{% block header %}
+    <h1>Welcome to HoeHui</h1>
+    <h3>The Virtual "iako" connecting the paddler's community</h3>
+    {% if current_user.is_authenticated %}
+    <h3>Logged In as: {{ current_user.username }}</h3>
+    {% else %}
+    <h3>Please Log In or Sign Up to use the blog</h3>
+    {% endif %} 
+{% endblock %} 
+
+{% block content %}
+    <div class="col-12 mt-3">
+        {% for p in posts %}
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ p.image_url }}" class="img-fluid rounded-start" alt="random photos"/>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ p.title }}</h5>
+                        <p class="card-text">{{ p.body }}</p>
+                        <p class="card-text"><small class="text-body-secondary">By {{ p.author.username }}</small></p>
+                        <p class="card-text"><small class="text-body-secondary">{{ p.date_created.strftime('%A %B %d, %Y at %I:%M%p') }}</small></p>
+                        <a href="{{ url_for('post_view', post_id=p.id) }}" class="btn btn-outline-secondary">See More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
