@@ -15,8 +15,8 @@
         <div class="card-body bg-light">
             <h3 class="card-title">{{ current_user.first_name }} {{ current_user.last_name }}</h3>
             <h5 class="card-text">{{ current_user.username }}</h5>
-            <a href="" class="btn btn-secondary">Edit</a>
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletePostModal">Delete</button>
+            <a href="{{ url_for('edituserprofile', username=current_user.username) }}" class="btn btn-secondary">Edit Profile</a>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletePostModal">Delete Profile</button>
             <br>
             <hr>
             <h5>About Me</h5>

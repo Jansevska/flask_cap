@@ -3,7 +3,7 @@
 {% block title %}Edit User's Profile{% endblock %}
 
 {% block header %}
-    <h1>Edit {{ current_user.username }}</h1>
+    <h1>Update {{ current_user.username }}'s Profile</h1>
 {% endblock %}
 
 {% block content %}
@@ -24,12 +24,6 @@
 
                     {{ form.email.label }}
                     {{ form.email(class='form-control', placeholder='Enter Email') }}
-
-                    {{ form.password.label }}
-                    {{ form.password(class='form-control', placeholder='Enter Password') }}
-
-                    {{ form.confirm_pass.label }}
-                    {{ form.confirm_pass(class='form-control', placeholder='Enter Password Again') }}
 
                     {{ form.submit(class='btn btn-outline-dark w-100 mt-3') }}
                 </form>

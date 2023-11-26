@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, flash
 # Import SignUpForm class from forms
 from flask_login import login_user, logout_user, login_required, current_user
 from app import app, db
-from app.forms import SignUpForm, LoginForm, PostForm
+from app.forms import SignUpForm, LoginForm, PostForm, EditProfileForm
 from app.models import User, Post
 
 
@@ -74,9 +74,43 @@ def logout():
 
 @app.route('/user', methods=["GET", "POST"])
 @login_required
+
 def user():
     user = current_user
     return render_template('user.html', user=user)
+
+
+@app.route('/user/<username>', methods=["GET", "POST"])
+@login_required
+def edituserprofile(username):
+    user = db.session.get(User, username)
+    # if not user:
+    #     flash('User not found')
+    #     return redirect(url_for('user'))
+    # if current_user != user.username:
+    #     flash('You can only update your own profile')
+    #     return redirect(url_for('user', current_user=user.username))
+    # Create an instance of the EditProfileForm
+    form = EditProfileForm()
+    # if user == current_user:
+        # If form submitted, update the profile
+    if form.validate_on_submit():
+        # update the post with the for data
+        user.first_name = form.first_name.data
+        user.last_name = form.last_name.data
+        user.username = form.username.data
+        user.email = form.email.data
+        # Commit to the database
+        db.session.commit()
+        flash(f'{user.username} profile has been updated.', 'success')
+        return redirect(url_for('user'))
+
+    # Pre-populate the form with the post's data
+    form.first_name.data = user.first_name
+    form.last_name.data = user.last_name
+    form.username.data = user.username
+    form.email.data = user.email
+    return render_template('edit_user.html', user=user, form=form, current_user=current_user)
 
 
 

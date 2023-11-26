@@ -25,8 +25,8 @@ login = LoginManager(app)
 login.login_view = 'login'
 
 # register the api blueprint with our app
-# from .blueprints.api import api
-# app.register_blueprint(api)
+from .blueprints.api import api
+app.register_blueprint(api)
 
 # import routes
 from . import routes, models
