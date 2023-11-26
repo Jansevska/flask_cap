@@ -54,7 +54,9 @@ def get_user(user_id):
 
 def random_photo():
     random_number = random.randint(1,1000)
-    return f"https://picsum.photos/500?random={random_number}"
+    return f"https://picsum.photos/400?random={random_number}"
+
+
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)

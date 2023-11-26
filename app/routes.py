@@ -72,27 +72,12 @@ def logout():
     flash('You have successfully logged out')
     return redirect(url_for('index'))
 
-# @app.route('/user/<username>')
-# @login_required
-# def user(username):
-#     user = User.query.filter_by(usersname=username).first_or_404()
-#     posts = [
-#         {'author': user, 'body': 'Test post #1'},
-#         {'author': user, 'body': 'Test post #2'}
-#     ]
-#     return render_template('user.html', user=user, posts=posts)
+@app.route('/user', methods=["GET", "POST"])
+@login_required
+def user():
+    user = current_user
+    return render_template('user.html', user=user)
 
-# @app.route('/user', methods=['GET', 'POST'])
-# @login_required
-# def user_view(user_id):
-#     user = db.session.get(User, user_id)
-#     # if not user:
-#     #     flash('This user does not exist')
-#     #     return redirect(url_for('signup'))
-#     if current_user != user.username:
-#         flash('Something is wrong!')
-#         return redirect(url_for('login'))
-#     return render_template('user.html', user=user, user_id=user_id)
 
 
 @app.route('/create-post', methods=["GET", "POST"])

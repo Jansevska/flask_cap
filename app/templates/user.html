@@ -1,21 +1,29 @@
-<!-- {% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}{{ user.username }}{% endblock %}
+{% block title %}Profile{% endblock %}
 
 {% block header %}
 <div class="col-6 offset-3">
-    <h1>User Profile</h1> -->
-    <!-- {% comment %} <img src="{{ post.image_url }}" alt="img-fluid"> {% endcomment %} -->
+    <img src="{{ current_user.image_url }}" alt="img-fluid">
 </div>
-<!-- {% endblock %}
+    <h1>{{ current_user.first_name }}'s Profile</h1>
+{% endblock %}
 
 {% block content %}
 <div class="col mt-4">
     <div class="card text-center">
         <div class="card-body bg-light">
-            <h5 class="card-title">{{ user.username }}</h5>
-            <p class="card-text">{{ user.username }}</p>
+            <h3 class="card-title">{{ current_user.first_name }} {{ current_user.last_name }}</h3>
+            <h5 class="card-text">{{ current_user.username }}</h5>
+            <a href="" class="btn btn-secondary">Edit</a>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletePostModal">Delete</button>
+            <br>
+            <hr>
+            <h5>About Me</h5>
+            <p>Eventually will have a section for about me...</p>
+
+
         </div>
     </div>
 </div>
-{% endblock %} -->
+{% endblock %}
