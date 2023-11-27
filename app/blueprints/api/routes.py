@@ -69,7 +69,7 @@ def get_users():
     return [user.to_dict() for user in users]
 
 # Endpoint to edit an exiting user
-@api.route('/posts/<user_id>', methods=['PUT'])
+@api.route('/users/<user_id>', methods=['PUT'])
 @token_auth.login_required
 def edit_user(user_id):
     # Check to see that the request body is JSON
