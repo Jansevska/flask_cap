@@ -56,11 +56,46 @@ def create_user():
 
 
 # Endpoint to get user based on token
-@api.route('/users/me', methods=["GET"])
+@api.route('/users/<int:id>', methods=["GET"])
 @token_auth.login_required
-def get_me():
-    current_user = token_auth.current_user()
+def get_user(id):
+    current_user = token_auth.current_user(id)
     return current_user.to_dict()
+
+@api.route('/users', methods=['GET'])
+@token_auth.login_required
+def get_users():
+    users = db.session.execute(db.select(User)).scalars().all()
+    return [user.to_dict() for user in users]
+
+# Endpoint to edit an exiting user
+@api.route('/posts/<user_id>', methods=['PUT'])
+@token_auth.login_required
+def edit_user(user_id):
+    # Check to see that the request body is JSON
+    if not request.is_json:
+        return {'error': 'Your content-type must be application/json'}, 400
+    # Get the post from db
+    user = db.session.get(User, user_id)
+    if user is None:
+        return {'error': f"User with an ID of {user_id} does not exist"}, 404
+    data = request.json
+    for field in data:
+        if field in {'first_name', 'last_name', 'username', 'email'}:
+            setattr(user, field, data[field])
+    db.session.commit()
+    return user.to_dict()
+
+# Endpoint to delete an exiting user
+@api.route('/users/<user_id>', methods=["DELETE"])
+@token_auth.login_required
+def delete_user(user_id):
+    # Get the user from db
+    user = db.session.get(User, user_id)
+    # Delete the user
+    db.session.delete(user)
+    db.session.commit()
+    return {'success': f"{user.username} has been deleted"}
 
 
 # Endpoint to get all posts

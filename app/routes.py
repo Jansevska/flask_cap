@@ -74,28 +74,20 @@ def logout():
 
 @app.route('/user', methods=["GET", "POST"])
 @login_required
-
 def user():
     user = current_user
     return render_template('user.html', user=user)
 
 
-@app.route('/user/<username>', methods=["GET", "POST"])
+@app.route('/user/<user_id>', methods=["GET", "POST"])
 @login_required
-def edituserprofile(username):
-    user = db.session.get(User, username)
-    # if not user:
-    #     flash('User not found')
-    #     return redirect(url_for('user'))
-    # if current_user != user.username:
-    #     flash('You can only update your own profile')
-    #     return redirect(url_for('user', current_user=user.username))
+def edituserprofile(user_id):
+    user = db.session.get(User, user_id)
     # Create an instance of the EditProfileForm
     form = EditProfileForm()
-    # if user == current_user:
-        # If form submitted, update the profile
+    # If form submitted, update the profile
     if form.validate_on_submit():
-        # update the post with the for data
+        # update the user with the for data
         user.first_name = form.first_name.data
         user.last_name = form.last_name.data
         user.username = form.username.data
@@ -105,13 +97,27 @@ def edituserprofile(username):
         flash(f'{user.username} profile has been updated.', 'success')
         return redirect(url_for('user'))
 
-    # Pre-populate the form with the post's data
+    # Pre-populate the form with the user's data
     form.first_name.data = user.first_name
     form.last_name.data = user.last_name
     form.username.data = user.username
     form.email.data = user.email
     return render_template('edit_user.html', user=user, form=form, current_user=current_user)
 
+
+@app.route('/user/<user_id>/delete', methods=["GET"])
+@login_required
+def delete_user(user_id):
+    user = db.session.get(User, user_id)
+    if current_user != user:
+        flash('You can only delete your own account!')
+        return redirect(url_for('user', user_id=user.id, user=user))
+
+    db.session.delete(user)
+    db.session.commit()
+
+    flash(f"{user} has been deleted")
+    return redirect(url_for('index'))
 
 
 @app.route('/create-post', methods=["GET", "POST"])
