@@ -68,6 +68,12 @@ def get_users():
     users = db.session.execute(db.select(User)).scalars().all()
     return [user.to_dict() for user in users]
 
+@api.route('/users/me', methods=['GET'])
+@token_auth.login_required
+def get_me():
+    create_user = token_auth.current_user()
+    return create_user.to_dict()
+
 # Endpoint to edit an exiting user
 @api.route('/users/<user_id>', methods=['PUT'])
 @token_auth.login_required
